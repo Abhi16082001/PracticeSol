@@ -39,6 +39,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../services/chat.js';
+import { AuthService } from '../services/AuthService.js';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-chat',
@@ -54,10 +55,11 @@ export class Chat {
   onlineUsers: string[] = [];
   messages: {from: string, message: string}[] = [];
 
-  constructor(private chatService: ChatService,private router: Router) {
+  constructor(private chatService: ChatService,private router: Router,private authservice:AuthService) {
     this.chatService.onlineUsers$.subscribe(users => this.onlineUsers = users);
     this.chatService.messages$.subscribe(msgs => this.messages = msgs);
     this.registered=this.router.getCurrentNavigation()?.extras.state?.['registered'];
+    this.username=this.chatService.getusername();
   }
 
   // register() {
@@ -70,5 +72,12 @@ export class Chat {
     if (!this.toUser || !this.message) return;
     this.chatService.sendMessage(this.toUser, this.message);
     this.message = '';
+  }
+
+
+  logout(){
+    this.authservice.logout();
+    alert("You are logged out !!");
+    this.router.navigate(['/login']);
   }
 }

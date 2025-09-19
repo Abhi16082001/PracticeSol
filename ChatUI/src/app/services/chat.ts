@@ -37,18 +37,49 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
+import { AuthService } from './AuthService.js';
 
 @Injectable({ providedIn: 'root' })
 export class ChatService {
-  private hubConnection: signalR.HubConnection;
+  private hubConnection!: signalR.HubConnection;
   private username: string = '';
+
+// Optional helper to check token expiration
+private isTokenExpired(token: string): boolean {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const exp = payload.exp;
+    const now = Math.floor(Date.now() / 1000);
+    return exp < now;
+  } catch {
+    return true; // treat invalid token as expired
+  }
+}
 
   // Online users list
   public onlineUsers$ = new BehaviorSubject<string[]>([]);
   // Incoming messages
   public messages$ = new BehaviorSubject<{from: string, message: string}[]>([]);
 
-  constructor() {
+  constructor(private authService: AuthService) {
+
+ const token = this.authService.getToken();
+
+  if (!token) {
+    console.warn('No JWT token found. Please login first.');
+    return; // stop connection if token is missing
+  }
+
+// Optionally, you can validate token format or expiration here
+  const isTokenExpired = this.isTokenExpired(token);
+  if (isTokenExpired) {
+    console.warn('JWT token expired. Please login again.');
+    return;
+  }
+  else {
+    console.log("JWT token is validated !!");
+  }
+
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:7084/chatHub', { withCredentials: true })
       .withAutomaticReconnect()
@@ -82,8 +113,15 @@ export class ChatService {
     this.username = username;
     this.hubConnection.invoke('RegisterUser', username);
   }
+getusername(){
+  return this.username;
+}
 
   sendMessage(toUser: string, message: string) {
     this.hubConnection.invoke('SendPrivateMessage', this.username, toUser, message);
+        const current = this.messages$.getValue();
+       this.messages$.next([...current, { from: this.username, message }]);
   }
 }
+
+

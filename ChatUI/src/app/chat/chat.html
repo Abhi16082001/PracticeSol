@@ -26,6 +26,11 @@
 <div>
     <h3>Messages</h3>
     <div *ngFor="let msg of messages">
-        <strong>{{msg.from}}:</strong> {{msg.message}}
+        <div style="text-align: right;" *ngIf="msg.from===username"><strong>You</strong>
+            {{msg.message}}</div>
+        <div *ngIf="msg.from!==username"><strong>{{msg.from}}:</strong> {{msg.message}}
+        </div>
     </div>
 </div>
+
+<button (click)="logout()">Logout</button>

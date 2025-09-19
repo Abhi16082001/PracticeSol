@@ -1,6 +1,10 @@
 ﻿using ChattingApp.Hubs;
+using ChattingApp.Models;
+using ChattingApp.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 
 
@@ -23,6 +27,7 @@ builder.Services.AddControllers();
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<AccountRepo>();
 
 // Add JWT authentication (Core way, not OWIN)
 builder.Services.AddAuthentication("Bearer")
@@ -53,6 +58,9 @@ builder.Services.AddAuthentication("Bearer")
             }
         };
     });
+
+builder.Services.AddDbContext<ChatDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
