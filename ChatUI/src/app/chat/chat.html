@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <h2>Chat Room</h2>
     <div *ngFor="let msg of messages">
         <strong>{{ msg.user }}:</strong> {{ msg.message }}
@@ -6,4 +6,26 @@
 
     <input [(ngModel)]="message" placeholder="Type message" />
     <button (click)="sendMessage()">Send</button>
+</div> -->
+
+<!-- <div>
+    <input [(ngModel)]="username" placeholder="Enter username" />
+    <button (click)="register()">Register</button>
+</div> -->
+
+<div *ngIf="registered">
+    <label>Send message to:</label>
+    <select [(ngModel)]="toUser">
+        <option *ngFor="let user of onlineUsers" [value]="user">{{user}}</option>
+    </select>
+
+    <input [(ngModel)]="message" placeholder="Message" />
+    <button (click)="send()">Send</button>
+</div>
+
+<div>
+    <h3>Messages</h3>
+    <div *ngFor="let msg of messages">
+        <strong>{{msg.from}}:</strong> {{msg.message}}
+    </div>
 </div>
