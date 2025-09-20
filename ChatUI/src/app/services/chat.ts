@@ -59,7 +59,7 @@ private isTokenExpired(token: string): boolean {
   // Online users list
   public onlineUsers$ = new BehaviorSubject<string[]>([]);
   // Incoming messages
-  public messages$ = new BehaviorSubject<{from: string, message: string}[]>([]);
+  public messages$ = new BehaviorSubject<{from: string, message: string, to:string}[]>([]);
 
   constructor(private authService: AuthService) {
 
@@ -92,7 +92,7 @@ private isTokenExpired(token: string): boolean {
     // Incoming private messages
     this.hubConnection.on('ReceivePrivateMessage', (fromUser: string, message: string) => {
       const current = this.messages$.getValue();
-      this.messages$.next([...current, { from: fromUser, message }]);
+      this.messages$.next([...current, { from: fromUser, message:message, to:this.username }]);
     });
 
     // Online users list update
@@ -120,7 +120,7 @@ getusername(){
   sendMessage(toUser: string, message: string) {
     this.hubConnection.invoke('SendPrivateMessage', this.username, toUser, message);
         const current = this.messages$.getValue();
-       this.messages$.next([...current, { from: this.username, message }]);
+       this.messages$.next([...current, { from: this.username, message:message, to:toUser }]);
   }
 }
 

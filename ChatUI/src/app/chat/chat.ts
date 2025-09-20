@@ -54,7 +54,7 @@ export class Chat {
   message = '';
   registered = false;
   onlineUsers: string[] = [];
-  messages: {from: string, message: string}[] = [];
+  messages: {from: string, message: string, to:string}[] = [];
 
   constructor(private chatService: ChatService,private router: Router,private authservice:AuthService) {
     this.chatService.onlineUsers$.subscribe(users => this.onlineUsers = users);

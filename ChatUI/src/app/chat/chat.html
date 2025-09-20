@@ -28,9 +28,11 @@
         <div class="messages-container">
             <div *ngFor="let msg of messages" class="message" [class.message-right]="msg.from === username"
                 [class.message-left]="msg.from !== username">
-                <div class="message-sender" *ngIf="msg.from !== username">{{msg.from}}</div>
-                <div class="message-sender" *ngIf="msg.from === username">You</div>
-                <div class="message-content">{{msg.message}}</div>
+                <div *ngIf="msg.from===toUser || msg.to===toUser">
+                    <div class="message-sender" *ngIf="msg.from !== username">{{msg.from}}</div>
+                    <div class="message-sender" *ngIf="msg.from === username">You</div>
+                    <div class="message-content">{{msg.message}}</div>
+                </div>
             </div>
         </div>
 
