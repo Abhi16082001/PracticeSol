@@ -38,7 +38,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './AuthService.js';
-
+import { User } from '../models/User.js';
 @Injectable({ providedIn: 'root' })
 export class ChatService {
   private hubConnection!: signalR.HubConnection;
@@ -109,9 +109,9 @@ private isTokenExpired(token: string): boolean {
     });
   }
 
-  register(username: string) {
-    this.username = username;
-    this.hubConnection.invoke('RegisterUser', username);
+  register(user:any) {
+    this.username = user.uname;
+    this.hubConnection.invoke('RegisterUser', this.username);
   }
 getusername(){
   return this.username;

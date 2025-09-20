@@ -4,26 +4,28 @@ import { AuthService } from '../services/AuthService.js';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChatService } from '../services/chat.js';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
 export class Login {
-  loginData = { username: '', password: '' };
+  loginData = { userid: 0, password: '' };
   errorMessage = '';
 
   constructor(private authService: AuthService, private router: Router,private chatService: ChatService) {}
 
   onLogin() {
+    this.authService.logout();
     this.authService.login(this.loginData).subscribe({
       next: (response) => {
         // Save JWT in localStorage
         localStorage.setItem('token', response.token);
-if (!this.loginData.username) return;
-    this.chatService.register(this.loginData.username);
+if (!this.loginData.userid) return;
+    this.chatService.register(response.user);
     // this.registered = true;
         // Redirect after login (example: chat page)
         this.router.navigate(['/chat'],{ state: { registered: true } });

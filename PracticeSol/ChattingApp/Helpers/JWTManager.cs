@@ -10,7 +10,7 @@ namespace ChattingApp.Helpers
     public class JWTManager
     {
         // Better to move this to appsettings.json later
-        private static string Secret = "ThisIsASuperLongSecretKey1234567890!@#";
+        internal static string Secret = "ThisIsASuperLongSecretKey1234567890!@#";
 
         public static string GenerateToken(string username, int expireMinutes = 60)
         {

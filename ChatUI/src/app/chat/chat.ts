@@ -45,7 +45,8 @@ import { Router } from '@angular/router';
   selector: 'app-chat',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './chat.html'
+  templateUrl: './chat.html',
+  styleUrls: ['./chat.css']
 })
 export class Chat {
   username = '';

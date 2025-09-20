@@ -7,13 +7,38 @@ namespace ChattingApp.Repositories
         private readonly ChatDbContext db;
         public AccountRepo(ChatDbContext db) => this.db = db;  
 
-        public bool checkUser(LoginRequest request)
+        public (bool,User?) checkUser(LoginRequest request)
         {
-            int res = db.LoginRequests.Where(x => x.Username == request.Username && x.Password==request.Password).Count();
-            if (res < 1) return false;
-            else return true;
+            int res = db.LoginRequests.Where(x => x.UserId == request.UserId && x.Password==request.Password).Count();
+            if (res < 1) return (false,null);
+            else {
+
+                User? user = db.Users.FirstOrDefault(x=>x.Uid==request.UserId);
+                return (true,user); }
 
         }
-                
+
+
+        public bool Register(User user)
+        {
+            try
+            {
+                LoginRequest lgn = new LoginRequest()
+                {                   
+                    Password = user.Password
+                };
+                db.LoginRequests.Add(lgn);
+                db.SaveChanges();
+                int uid = Convert.ToInt32(db.LoginRequests.OrderByDescending(x => x.UserId).Select(x => x.UserId).First());
+                user.Uid = uid;
+                db.Users.Add(user);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

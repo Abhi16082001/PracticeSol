@@ -4,6 +4,7 @@ using ChattingApp.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using ChattingApp.Helpers;
 using System;
 using System.Text;
 
@@ -40,7 +41,7 @@ builder.Services.AddAuthentication("Bearer")
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("your-secret-key")) 
+                Encoding.UTF8.GetBytes(JWTManager.Secret)) 
         };
 
         // For SignalR authentication

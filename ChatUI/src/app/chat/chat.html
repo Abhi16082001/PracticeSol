@@ -12,25 +12,33 @@
     <input [(ngModel)]="username" placeholder="Enter username" />
     <button (click)="register()">Register</button>
 </div> -->
+<div id="welcome">Welcome {{username}} !!</div>
+<div class="chat-container">
+    <div class="user-sidebar">
+        <h3>Online Users</h3>
+        <div class="user-list">
+            <div *ngFor="let user of onlineUsers" class="user-item" [class.selected]="toUser === user"
+                (click)="toUser = user">
+                {{user}}
+            </div>
+        </div>
+    </div>
 
-<div *ngIf="registered">
-    <label>Send message to:</label>
-    <select [(ngModel)]="toUser">
-        <option *ngFor="let user of onlineUsers" [value]="user">{{user}}</option>
-    </select>
+    <div class="chat-area">
+        <div class="messages-container">
+            <div *ngFor="let msg of messages" class="message" [class.message-right]="msg.from === username"
+                [class.message-left]="msg.from !== username">
+                <div class="message-sender" *ngIf="msg.from !== username">{{msg.from}}</div>
+                <div class="message-sender" *ngIf="msg.from === username">You</div>
+                <div class="message-content">{{msg.message}}</div>
+            </div>
+        </div>
 
-    <input [(ngModel)]="message" placeholder="Message" />
-    <button (click)="send()">Send</button>
-</div>
-
-<div>
-    <h3>Messages</h3>
-    <div *ngFor="let msg of messages">
-        <div style="text-align: right;" *ngIf="msg.from===username"><strong>You</strong>
-            {{msg.message}}</div>
-        <div *ngIf="msg.from!==username"><strong>{{msg.from}}:</strong> {{msg.message}}
+        <div class="input-area">
+            <input [(ngModel)]="message" placeholder="Type a message..." />
+            <button (click)="send()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 </div>
 
-<button (click)="logout()">Logout</button>
+<button class="logout-btn" (click)="logout()">Logout</button>
