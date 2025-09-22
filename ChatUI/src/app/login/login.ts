@@ -18,17 +18,20 @@ export class Login {
 
   constructor(private authService: AuthService, private router: Router,private chatService: ChatService) {}
 
-  onLogin() {
-    this.authService.logout();
+  async onLogin() {
+    this.chatService.logout();
     this.authService.login(this.loginData).subscribe({
-      next: (response) => {
+      next: async (response) => {
         // Save JWT in localStorage
         localStorage.setItem('token', response.token);
+        localStorage.setItem('user',JSON.stringify(response.user));
 if (!this.loginData.userid) return;
-    this.chatService.register(response.user);
-    // this.registered = true;
-        // Redirect after login (example: chat page)
-        this.router.navigate(['/chat'],{ state: { registered: true } });
+
+
+    await this.chatService.startConnection();  // ✅ start hub connection
+      await this.chatService.register(response.user); // ✅ safe register after connected
+
+      this.router.navigate(['/chat'], { state: { registered: true } });
       },
       error: (err) => {
         this.errorMessage = 'Invalid username or password';

@@ -77,7 +77,7 @@ export class Chat {
 
 
   logout(){
-    this.authservice.logout();
+    this.chatService.logout();
     alert("You are logged out !!");
     this.router.navigate(['/login']);
   }

@@ -22,7 +22,5 @@ register(data:User):Observable<any>{
     return localStorage.getItem('token');
   }
 
-  logout() {
-    localStorage.removeItem('token');
-  }
+ 
 }
