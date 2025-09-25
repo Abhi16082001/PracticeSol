@@ -18,6 +18,17 @@ namespace ChattingApp.Repositories
 
         }
 
+        public User? getUser(int userid)
+        {
+            var res = db.Users.Where(x => x.Uid == userid).Count();
+            if (res < 1) return  null;
+            else
+            {
+                User? user = db.Users.FirstOrDefault(x => x.Uid == userid);
+                return user;
+            }
+
+        }
 
         public bool Register(User user)
         {

@@ -1,18 +1,4 @@
-<!-- <div>
-    <h2>Chat Room</h2>
-    <div *ngFor="let msg of messages">
-        <strong>{{ msg.user }}:</strong> {{ msg.message }}
-    </div>
-
-    <input [(ngModel)]="message" placeholder="Type message" />
-    <button (click)="sendMessage()">Send</button>
-</div> -->
-
-<!-- <div>
-    <input [(ngModel)]="username" placeholder="Enter username" />
-    <button (click)="register()">Register</button>
-</div> -->
-<div id="welcome">Welcome {{username}} !!</div>
+<!-- <div id="welcome">Welcome {{username}} !!</div>
 <div class="chat-container">
     <div class="user-sidebar">
         <h3>Online Users</h3>
@@ -43,5 +29,67 @@
         </div>
     </div>
 </div>
+
+<button class="logout-btn" (click)="logout()">Logout</button> -->
+
+<div id="welcome">Welcome {{user.uname}} !!</div>
+
+<div class="chat-container">
+    <!-- Sidebar -->
+    <div class="user-sidebar">
+        <h3>Online Users</h3>
+        <div class="user-list">
+            <div *ngFor="let user of onlineUsers" class="user-item" [class.selected]="toUser === user"
+                (click)="toUser = user">
+                {{user.uname}}
+                <!-- 📞 Call Button -->
+                <button class="call-btn" (click)="callUser(user, $event)">
+                    📞
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area">
+        <div class="messages-container">
+            <div *ngFor="let msg of messages" class="message" [class.message-right]="msg.from.uid === user.uid"
+                [class.message-left]="msg.from.uid !== user.uid">
+                <div *ngIf="msg.from.uid===toUser.uid || msg.to.uid===toUser.uid">
+                    <div class="message-sender" *ngIf="msg.from.uid !== user.uid">{{msg.from.uname}}</div>
+                    <div class="message-sender" *ngIf="msg.from.uid === user.uid">You</div>
+                    <div class="message-content">{{msg.message}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input [(ngModel)]="message" placeholder="Type a message..." />
+            <button (click)="send()">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Incoming call UI -->
+<div class="incoming-call" *ngIf="callService.showIncomingCallUI">
+    <p>Incoming call from {{callService.incomingCallFrom}}</p>
+    <button (click)="callService.acceptCall()">Accept</button>
+    <button (click)="callService.rejectCall()">Reject</button>
+</div>
+
+<!-- Active call UI -->
+<div class="call-container" *ngIf="callService.inCall">
+    <h3>Call with {{callService.targetUser}}</h3>
+    <video id="localVideo" autoplay muted playsinline></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+    <audio id="remoteAudio" autoplay></audio>
+    <div class="call-controls">
+        <button (click)="callService.endCall()">End</button>
+    </div>
+</div>
+
+
+
 
 <button class="logout-btn" (click)="logout()">Logout</button>

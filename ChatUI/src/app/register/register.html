@@ -5,7 +5,7 @@
         <!-- Username -->
         <div>
             <label>Username</label>
-            <input type="text" name="Uname" [(ngModel)]="user.Uname" required minlength="3" #uname="ngModel">
+            <input type="text" name="uname" [(ngModel)]="user.uname" required minlength="3" #uname="ngModel">
             <div *ngIf="uname.invalid && uname.touched" class="error">
                 Username is required (min 3 chars).
             </div>
@@ -14,7 +14,7 @@
         <!-- Email -->
         <div>
             <label>Email</label>
-            <input type="email" name="Email" [(ngModel)]="user.Email" required email #email="ngModel">
+            <input type="email" name="email" [(ngModel)]="user.email" required email #email="ngModel">
             <div *ngIf="email.invalid && email.touched" class="error">
                 Enter a valid email.
             </div>
@@ -23,7 +23,7 @@
         <!-- Phone -->
         <div>
             <label>Phone</label>
-            <input type="number" name="Phone" [(ngModel)]="user.Phone" required pattern="^[0-9]{10}$" #phone="ngModel">
+            <input type="number" name="phone" [(ngModel)]="user.phone" required pattern="^[0-9]{10}$" #phone="ngModel">
             <div *ngIf="phone.invalid && phone.touched" class="error">
                 Phone must be 10 digits.
             </div>
@@ -32,7 +32,7 @@
         <!-- First Name -->
         <div>
             <label>First Name</label>
-            <input type="text" name="Fname" [(ngModel)]="user.Fname" required #fname="ngModel">
+            <input type="text" name="fname" [(ngModel)]="user.fname" required #fname="ngModel">
             <div *ngIf="fname.invalid && fname.touched" class="error">
                 First name is required.
             </div>
@@ -41,7 +41,7 @@
         <!-- Last Name -->
         <div>
             <label>Last Name</label>
-            <input type="text" name="Lname" [(ngModel)]="user.Lname" required #lname="ngModel">
+            <input type="text" name="lname" [(ngModel)]="user.lname" required #lname="ngModel">
             <div *ngIf="lname.invalid && lname.touched" class="error">
                 Last name is required.
             </div>
@@ -50,7 +50,7 @@
         <!-- Password -->
         <div>
             <label>Password</label>
-            <input type="password" name="Password" [(ngModel)]="user.Password" required minlength="6"
+            <input type="password" name="password" [(ngModel)]="user.password" required minlength="6"
                 #password="ngModel">
             <div *ngIf="password.invalid && password.touched" class="error">
                 Password must be at least 6 characters.
@@ -61,7 +61,7 @@
         <div>
             <label>Confirm Password</label>
             <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required #cpassword="ngModel">
-            <div *ngIf="cpassword.touched && confirmPassword !== user.Password" class="error">
+            <div *ngIf="cpassword.touched && confirmPassword !== user.password" class="error">
                 Passwords do not match.
             </div>
         </div>
@@ -69,7 +69,7 @@
         <!-- DOB -->
         <div>
             <label>Date of Birth</label>
-            <input type="date" name="DOB" [(ngModel)]="user.DOB" required #dob="ngModel" (change)="validateDOB()">
+            <input type="date" name="dob" [(ngModel)]="user.dob" required #dob="ngModel" (change)="validateDOB()">
             <div *ngIf="dobError" class="error">
                 You must be at least 18 years old.
             </div>

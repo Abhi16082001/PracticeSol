@@ -15,14 +15,14 @@ import { RouterLink } from '@angular/router';
 })
 export class RegisterComponent {
   user: User = {
-    Uid: 0,
-    Uname: '',
-    Email: '',
-    Phone: 0,
-    Fname: '',
-    Lname: '',
-    Password: '',
-    DOB: new Date()
+     uid:0,
+      uname:"",
+      email:"",
+      phone:0,
+      fname:"",
+      lname:"",
+      password:"",
+      dob:null
   };
 
   confirmPassword: string = '';
@@ -32,12 +32,12 @@ export class RegisterComponent {
 
   // Custom DOB validator
   validateDOB() {
-    if (!this.user.DOB) {
+    if (!this.user.dob) {
       this.dobError = true;
       return;
     }
     const today = new Date();
-    const dob = new Date(this.user.DOB);
+    const dob = new Date(this.user.dob);
     const age = today.getFullYear() - dob.getFullYear();
     const monthDiff = today.getMonth() - dob.getMonth();
     const dayDiff = today.getDate() - dob.getDate();
@@ -51,7 +51,7 @@ export class RegisterComponent {
   }
 
   onSubmit(form: NgForm) {
-    if (form.invalid || this.dobError || this.user.Password !== this.confirmPassword) {
+    if (form.invalid || this.dobError || this.user.password !== this.confirmPassword) {
       return;
     }
 console.log("Form is submitted !");

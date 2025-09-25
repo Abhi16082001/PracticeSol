@@ -25,6 +25,11 @@ builder.Services.AddCors(options =>
 
 // Add controllers and SignalR
 builder.Services.AddControllers();
+//builder.Services.AddControllers()
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.PropertyNamingPolicy = null; // Keeps PascalCase
+//    });
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -51,7 +56,8 @@ builder.Services.AddAuthentication("Bearer")
             {
                 var accessToken = context.Request.Query["access_token"];
                 var path = context.HttpContext.Request.Path;
-                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chatHub"))
+                if (!string.IsNullOrEmpty(accessToken) &&
+                   (path.StartsWithSegments("/chatHub") || path.StartsWithSegments("/callHub")))
                 {
                     context.Token = accessToken;
                 }
@@ -78,5 +84,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<ChatHub>("/chatHub");
+app.MapHub<CallHub>("/callHub");
 
 app.Run();

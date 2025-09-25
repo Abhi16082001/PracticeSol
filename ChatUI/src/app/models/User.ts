@@ -1,10 +1,10 @@
 export interface User{
-    Uid:number;
-    Uname:string;
-    Email:string;
-    Phone:number;
-    Fname:string;
-    Lname:string;
-    Password:string;
-    DOB:Date;
+    uid:number;
+    uname:string;
+    email:string;
+    phone:number;
+    fname:string;
+    lname:string;
+    password:string;
+    dob:Date|null;
 }
