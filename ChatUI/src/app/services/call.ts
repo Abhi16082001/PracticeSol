@@ -185,9 +185,6 @@ this.peerConnection.ontrack = (event) => {
 //   remoteAudio.srcObject = event.streams[0];
 // };
 
-
-
-
     // Handle ICE candidates
     this.peerConnection.onicecandidate = (event) => {
       if (event.candidate) {
